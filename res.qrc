@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/usaFlag.jpg</file>
+        <file>icons/iranFlag.png</file>
+    </qresource>
+</RCC>

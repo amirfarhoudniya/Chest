@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>chooseLanguage</class>
+ <widget class="QWidget" name="chooseLanguage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>443</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>chooseLanguage</string>
+  </property>
+  <widget class="QPushButton" name="usa_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>170</y>
+     <width>220</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>usa's Flag</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="iran_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>170</y>
+     <width>220</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Iran's Flag</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>100</y>
+     <width>211</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>choose your language</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="persian_label">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>320</y>
+     <width>86</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>فارسی</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="english_label">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>320</y>
+     <width>86</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
