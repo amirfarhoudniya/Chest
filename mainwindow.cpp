@@ -9,15 +9,15 @@ mainWindow::mainWindow(QWidget *parent)
 
     setWindowTitle("Chest");
 
+    //prevent growing the window
+    this->setFixedSize(this->size());
+
+    //load groupsName from dataBase to group_listWidget
     refreshGroupsName();
 
-    QSqlQuery query ;
-    QSqlRecord record ;
-    query.prepare("SELECT * FROM groups") ;
-    if( query.exec() && query.next()) {
-        record = query.record() ;
-        refreshContributorName(record.value("name").toString());
-    }
+    //
+    ui->draw_pushButton->setEnabled(false);
+    ui->draw_pushButton->setCursor(Qt::PointingHandCursor);
 }
 
 mainWindow::~mainWindow()
@@ -42,7 +42,6 @@ void mainWindow::addRawContributorsName()
 {
     QListWidgetItem *item = new QListWidgetItem() ;
     item->setSizeHint(QSize(0 , 40));
-
     addItem *add_contributor_Item = new addItem() ;
     add_contributor_Item->setProperty("property" , "contributorName") ;
     connect(add_contributor_Item , &addItem::addContributorPageSignal , this , &mainWindow::addContributorPageCalled) ;
@@ -65,9 +64,9 @@ void mainWindow::refreshGroupsName()
             item->setSizeHint(QSize(0 , 40));
 
             groupItem *group_item = new groupItem() ;
-            group_item->language = language ;
             group_item->setName(record.value("name").toString());
             connect(group_item , &groupItem::refreshGroupListWidget , this , &mainWindow::refreshGroupsName) ;
+            connect(group_item , &groupItem::refreshContributorOfthisGroup , this , &mainWindow::refreshContributorName) ;
             ui->groups_listWidget->addItem(item);
             ui->groups_listWidget->setItemWidget(item , group_item);
         }
@@ -79,7 +78,6 @@ void mainWindow::refreshGroupsName()
 void mainWindow::refreshContributorName(QString _groupName)
 {
     ui->contributors_listWidget->clear();
-    qDebug() << _groupName ;
     //get the contibutors from dataBase based on their group's name
     QSqlQuery query ;
     QSqlRecord record ;
@@ -101,8 +99,13 @@ void mainWindow::refreshContributorName(QString _groupName)
             ui->contributors_listWidget->addItem(item);
             ui->contributors_listWidget->setItemWidget(item , contributor_item);
         }
+        if(record.value("turn").toInt() == 0 ){
+            enableDrawPushButton(true);
+            lastGroupNameCalled = record.value("groupsName").toString() ;
+            addRawContributorsName() ;
+        }
     }
-    addRawContributorsName() ;
+
 }
 
 void mainWindow::addGroupPageCalld()
@@ -119,6 +122,41 @@ void mainWindow::addContributorPageCalled()
     item->show() ;
 }
 
+void mainWindow::enableDrawPushButton(bool _enable)
+{
+    ui->draw_pushButton->setEnabled(_enable);
+}
 
+void mainWindow::on_draw_pushButton_clicked()
+{
+    qDebug() << lastGroupNameCalled;
 
+    // Fetch the list of contributors
+    QStringList contributors;
+    QSqlQuery query;
+    query.prepare("SELECT fullName FROM contributors WHERE groupsName = :groupsName");
+    query.bindValue(":groupsName", lastGroupNameCalled);
+
+    if (query.exec()) {
+        while (query.next()) {
+            contributors << query.value(0).toString();
+        }
+    } else {
+        qDebug() << query.lastError().text();
+        return;
+    }
+
+    // Shuffle the list of contributors
+    std::shuffle(contributors.begin(), contributors.end(), *QRandomGenerator::global());
+
+    // set draw result to dataBase
+    for (int i = 0; i < contributors.size(); ++i) {
+        query.prepare("UPDATE contributors SET turn = :turn WHERE fullName = :fullName");
+        query.bindValue(":turn" , i + 1 );
+        query.bindValue(":fullName" , contributors[i]);
+        query.exec() ;
+    }
+
+    refreshContributorName(lastGroupNameCalled);
+}
 

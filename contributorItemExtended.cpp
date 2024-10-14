@@ -7,9 +7,11 @@ contributorItemExtended::contributorItemExtended(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //prevent growing the window
+    this->setFixedSize(this->size());
+
     //apply pushButton's style
-    ui->apply_pushButton->setFixedSize(25,25);
-    ui->apply_pushButton->setStyleSheet("background-color:red");
+    ui->apply_pushButton->setStyleSheet("background-color:lightgreen ; color:black");
     ui->apply_pushButton->setCursor(Qt::PointingHandCursor);
 
     //turn label's style
@@ -17,6 +19,9 @@ contributorItemExtended::contributorItemExtended(QWidget *parent)
     ui->turn_label->setFrameShape(QFrame::Panel);
     ui->turn_label->setFrameShadow(QFrame::Sunken);
     ui->turn_label->setLineWidth(3);
+
+    //set payment label to get just numbers
+    ui->payment_lineEdit->setValidator(new QDoubleValidator(0, 100, 2, this));
 }
 
 contributorItemExtended::~contributorItemExtended()
@@ -24,9 +29,10 @@ contributorItemExtended::~contributorItemExtended()
     delete ui;
 }
 
-void contributorItemExtended::setInfo(QString _name, int _turn, double _lastPayments)
+void contributorItemExtended::setInfo(QString _name , QString _groupName , int _turn, double _lastPayments)
 {
     ui->fullName_label->setText(_name);
+    ui->groupName_label->setText("From " + _groupName);
     ui->turn_label->setText(QString::number(_turn));
     ui->lastPayment_label->setText(QString::number(_lastPayments));
 }

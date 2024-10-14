@@ -41,7 +41,7 @@
     <rect>
      <x>290</x>
      <y>100</y>
-     <width>451</width>
+     <width>611</width>
      <height>551</height>
     </rect>
    </property>
@@ -57,6 +57,19 @@
    </property>
    <property name="text">
     <string>Contributors</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="draw_pushButton">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>50</y>
+     <width>113</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Draw</string>
    </property>
   </widget>
  </widget>

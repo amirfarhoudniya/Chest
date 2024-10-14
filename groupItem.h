@@ -20,13 +20,15 @@ public:
     ~groupItem();
 
     void setName(QString _name) ;
-    int language ;
 
 signals :
     void refreshGroupListWidget() ;
+    void refreshContributorOfthisGroup(QString _groupName) ;
 
 private slots:
-    void on_pushButton_clicked();
+    void on_remove_pushButton_clicked();
+
+    void on_groupName_pushButton_clicked();
 
 private:
     Ui::groupItem *ui;

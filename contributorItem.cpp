@@ -35,13 +35,19 @@ void contributorItem::setInfo(QString _name, double _payment , int _turn)
     payment = _payment ;
     ui->contributor_pushButton->setText(name + " --> " + QString::number(payment) + " $");
     ui->turn_label->setText(QString::number(_turn));
+
+    //if draw is done in group's contributors, contributors can not be removed
+    if(_turn != 0) {
+        ui->remove_pushButton->setEnabled(0);
+        ui->remove_pushButton->setStyleSheet("background-color: gray ;");
+    }
 }
 
 void contributorItem::on_contributor_pushButton_clicked()
 {
     contributorItemExtended *item = new contributorItemExtended() ;
     connect(item , &contributorItemExtended::changesApplied , this , &contributorItem::refreshContributorReq) ;
-    item->setInfo(name ,turn , payment );
+    item->setInfo(name , this->property("groupName").toString() , turn , payment );
     item->show();
 }
 

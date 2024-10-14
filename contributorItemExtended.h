@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QDoubleValidator>
 
 namespace Ui {
 class contributorItemExtended;
@@ -17,7 +18,7 @@ public:
     explicit contributorItemExtended(QWidget *parent = nullptr);
     ~contributorItemExtended();
 
-    void setInfo(QString _name , int _turn , double _lastPayments) ;
+    void setInfo(QString _name, QString _groupName, int _turn, double _lastPayments) ;
 
 
 signals :
