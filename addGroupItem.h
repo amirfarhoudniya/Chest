@@ -22,7 +22,7 @@ signals :
 private slots:
     void on_save_pushButton_clicked();
 
-    void on_shareFactor_lineEdit_textChanged(const QString &arg1);
+    void on_shareFactor_lineEdit_textChanged();
 
 private:
     Ui::addGroupItem *ui;

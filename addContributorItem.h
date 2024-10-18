@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QDoubleValidator>
 
 namespace Ui {
 class addContributorItem;
@@ -16,6 +17,9 @@ class addContributorItem : public QWidget
 public:
     explicit addContributorItem(QWidget *parent = nullptr);
     ~addContributorItem();
+
+    //funcs
+    void setGroupName(QString _groupName) ;
 
 signals:
     void contributorAdded(QString groupName) ;

@@ -15,7 +15,7 @@ mainWindow::mainWindow(QWidget *parent)
     //load groupsName from dataBase to group_listWidget
     refreshGroupsName();
 
-    //
+    //draw pushButton's style
     ui->draw_pushButton->setEnabled(false);
     ui->draw_pushButton->setCursor(Qt::PointingHandCursor);
 }
@@ -51,20 +51,23 @@ void mainWindow::addRawContributorsName()
 
 void mainWindow::refreshGroupsName()
 {
+    //clear all items in group's listWidget
     ui->groups_listWidget->clear();
 
     //get the group's name from dataBase
     QSqlQuery query ;
     QSqlRecord record ;
-    query.prepare("SELECT name FROM groups") ;
+    query.prepare("SELECT * FROM groups") ;
     if(query.exec()) {
         while(query.next()) {
             record = query.record() ;
             QListWidgetItem *item = new QListWidgetItem() ;
-            item->setSizeHint(QSize(0 , 40));
+            item->setSizeHint(QSize(0 , 80));
 
             groupItem *group_item = new groupItem() ;
-            group_item->setName(record.value("name").toString());
+            group_item->setProperty("shareFactor" , record.value("shareFactor").toString() ) ;
+            group_item->setProperty("groupName" , record.value("name").toString()) ;
+            group_item->setName(record.value("name").toString() , record.value("shareFactor").toInt());
             connect(group_item , &groupItem::refreshGroupListWidget , this , &mainWindow::refreshGroupsName) ;
             connect(group_item , &groupItem::refreshContributorOfthisGroup , this , &mainWindow::refreshContributorName) ;
             ui->groups_listWidget->addItem(item);
@@ -77,7 +80,9 @@ void mainWindow::refreshGroupsName()
 
 void mainWindow::refreshContributorName(QString _groupName)
 {
+    //clear all items in contributor's listWidget
     ui->contributors_listWidget->clear();
+
     //get the contibutors from dataBase based on their group's name
     QSqlQuery query ;
     QSqlRecord record ;
@@ -101,8 +106,10 @@ void mainWindow::refreshContributorName(QString _groupName)
         }
         if(record.value("turn").toInt() == 0 ){
             enableDrawPushButton(true);
-            lastGroupNameCalled = record.value("groupsName").toString() ;
+            lastGroupNameCalled = _groupName ;
             addRawContributorsName() ;
+        } else {
+            enableDrawPushButton(false);
         }
     }
 
@@ -118,20 +125,25 @@ void mainWindow::addGroupPageCalld()
 void mainWindow::addContributorPageCalled()
 {
     addContributorItem *item = new addContributorItem() ;
+    item->setGroupName(lastGroupNameCalled);
     connect(item , &addContributorItem::contributorAdded , this , &mainWindow::refreshContributorName) ;
     item->show() ;
 }
 
 void mainWindow::enableDrawPushButton(bool _enable)
 {
-    ui->draw_pushButton->setEnabled(_enable);
+    if(_enable) {
+        ui->draw_pushButton->setEnabled(_enable);
+        ui->draw_pushButton->setStyleSheet("background-color:yellow ; color:black ;" );
+    } else {
+        ui->draw_pushButton->setEnabled(false);
+        ui->draw_pushButton->setStyleSheet("" );
+    }
 }
 
 void mainWindow::on_draw_pushButton_clicked()
 {
-    qDebug() << lastGroupNameCalled;
-
-    // Fetch the list of contributors
+    //fetch the list of contributors
     QStringList contributors;
     QSqlQuery query;
     query.prepare("SELECT fullName FROM contributors WHERE groupsName = :groupsName");
@@ -146,15 +158,27 @@ void mainWindow::on_draw_pushButton_clicked()
         return;
     }
 
-    // Shuffle the list of contributors
+    //shuffle the list of contributors
     std::shuffle(contributors.begin(), contributors.end(), *QRandomGenerator::global());
 
-    // set draw result to dataBase
+    //set draw result to dataBase
     for (int i = 0; i < contributors.size(); ++i) {
-        query.prepare("UPDATE contributors SET turn = :turn WHERE fullName = :fullName");
+        query.prepare("UPDATE contributors SET turn = :turn WHERE fullName = :fullName AND groupsName = :groupsName");
         query.bindValue(":turn" , i + 1 );
         query.bindValue(":fullName" , contributors[i]);
+        query.bindValue(":groupsName" , lastGroupNameCalled);
         query.exec() ;
+    }
+
+    //set data to .csv file
+    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    QFile csvFile (desktopPath + "/" + lastGroupNameCalled + ".csv");
+    if(csvFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        QTextStream stream(&csvFile) ;
+        stream << "full name\t" << "turn\n\r" ;
+        for(int i= 0 ; i < contributors.size() ; i++) {
+            stream << contributors[i]+ "\t" +  QString::number(i+1)  <<"\n\r";
+        }
     }
 
     refreshContributorName(lastGroupNameCalled);

@@ -8,7 +8,15 @@ addItem::addItem(QWidget *parent)
     ui->setupUi(this);
 
     //pushButton's style
-    ui->pushButton->setStyleSheet("background-color:green");
+    ui->pushButton->setStyleSheet(
+        "QPushButton {"
+        "    background-color: green;"
+        "}"
+        "QPushButton:hover:!pressed {"
+        "    background-color: lightgreen;"
+        "    color: black;"
+        "}"
+        );
     ui->pushButton->setCursor(Qt::PointingHandCursor);
 }
 
@@ -19,6 +27,7 @@ addItem::~addItem()
 
 void addItem::on_pushButton_clicked()
 {
+    //check the property to call the related page
     if(this->property("property") == "groupName") {
         emit addGroupPageSignal();
     } else {

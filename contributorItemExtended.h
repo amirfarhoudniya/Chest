@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QDoubleValidator>
 
+#include "dataBase.h"
+
 namespace Ui {
 class contributorItemExtended;
 }

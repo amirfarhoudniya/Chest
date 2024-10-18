@@ -11,7 +11,14 @@ contributorItemExtended::contributorItemExtended(QWidget *parent)
     this->setFixedSize(this->size());
 
     //apply pushButton's style
-    ui->apply_pushButton->setStyleSheet("background-color:lightgreen ; color:black");
+    ui->apply_pushButton->setStyleSheet("QPushButton {"
+                                        "    background-color: lightgreen;"
+                                        "    color:black"
+                                        "}"
+                                        "QPushButton:hover:!pressed {"
+                                        "    background-color: green;"
+                                        "    color: black;"
+                                        "}");
     ui->apply_pushButton->setCursor(Qt::PointingHandCursor);
 
     //turn label's style
@@ -31,6 +38,7 @@ contributorItemExtended::~contributorItemExtended()
 
 void contributorItemExtended::setInfo(QString _name , QString _groupName , int _turn, double _lastPayments)
 {
+    //set data to ui elements
     ui->fullName_label->setText(_name);
     ui->groupName_label->setText("From " + _groupName);
     ui->turn_label->setText(QString::number(_turn));
@@ -41,9 +49,9 @@ void contributorItemExtended::on_apply_pushButton_clicked()
 {
     double lastPayments = ui->lastPayment_label->text().toDouble() ;
     double newPayment = ui->payment_lineEdit->text().toDouble() ;
-
     double sum = lastPayments + newPayment ;
 
+    //update payment field of contributor in dataBase
     QSqlQuery query ;
     query.prepare("UPDATE contributors SET paid = :sum WHERE fullname = :fullName") ;
     query.bindValue(":sum" , sum);

@@ -19,7 +19,7 @@ public:
     explicit groupItem(QWidget *parent = nullptr);
     ~groupItem();
 
-    void setName(QString _name) ;
+    void setName(QString _name, int _shareFactor) ;
 
 signals :
     void refreshGroupListWidget() ;

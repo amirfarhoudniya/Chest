@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>346</height>
+    <width>467</width>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -23,8 +23,8 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="2" column="0">
-     <spacer name="horizontalSpacer">
+    <item row="2" column="2">
+     <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -36,8 +36,24 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="2">
-     <spacer name="horizontalSpacer_2">
+    <item row="1" column="1">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="2" column="0">
+     <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -56,33 +72,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
     <item row="0" column="0" colspan="3">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="2">
-       <widget class="QComboBox" name="group_comboBox"/>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="payment_label">
-        <property name="text">
-         <string>payment</string>
-        </property>
-       </widget>
+      <item row="0" column="1" colspan="2">
+       <widget class="QLineEdit" name="name_lineEdit"/>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="name_label">
@@ -91,18 +84,57 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="payment_lineEdit"/>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label">
+      <item row="3" column="2">
+       <widget class="QLabel" name="group_label2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
-         <string>group</string>
+         <string>groupName</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="QLineEdit" name="name_lineEdit"/>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="group_label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Selected group : </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="payment_label">
+        <property name="text">
+         <string>payment</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="payment_lineEdit"/>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>30</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>

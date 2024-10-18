@@ -12,7 +12,7 @@ contributorItem::contributorItem(QWidget *parent)
     ui->remove_pushButton->setStyleSheet("background-color:red");
     ui->remove_pushButton->setCursor(Qt::PointingHandCursor);
 
-    //
+    //contributor pushButton's style
     ui->contributor_pushButton->setCursor(Qt::PointingHandCursor);
 
     //turn label's style
@@ -30,6 +30,7 @@ contributorItem::~contributorItem()
 
 void contributorItem::setInfo(QString _name, double _payment , int _turn)
 {
+    //set data to ui elements
     name = _name ;
     turn = _turn ;
     payment = _payment ;
@@ -45,6 +46,7 @@ void contributorItem::setInfo(QString _name, double _payment , int _turn)
 
 void contributorItem::on_contributor_pushButton_clicked()
 {
+    //open contributor's page
     contributorItemExtended *item = new contributorItemExtended() ;
     connect(item , &contributorItemExtended::changesApplied , this , &contributorItem::refreshContributorReq) ;
     item->setInfo(name , this->property("groupName").toString() , turn , payment );
@@ -54,5 +56,23 @@ void contributorItem::on_contributor_pushButton_clicked()
 void contributorItem::refreshContributorReq()
 {
     emit changesApplied(this->property("groupName").toString());
+}
+
+
+void contributorItem::on_remove_pushButton_clicked()
+{
+    //remove contributor from dataBase
+    QSqlQuery query ;
+    query.prepare("DELETE FROM contributors WHERE fullName = :fullName AND groupsName = :groupsName") ;
+    query.bindValue(":fullName" , this->property("fullName").toString());
+    query.bindValue(":groupsName" , this->property("groupName").toString());
+
+    if(query.exec()) {
+        QMessageBox::information(this , "" , "done" );
+        refreshContributorReq();
+    } else {
+        QMessageBox::critical(this , "" , "dataBase Error !") ;
+    }
+
 }
 

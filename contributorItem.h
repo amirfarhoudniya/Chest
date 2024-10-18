@@ -7,6 +7,7 @@
 #include <QSqlRecord>
 
 #include "contributorItemExtended.h"
+#include "dataBase.h"
 
 namespace Ui {
 class contributorItem;
@@ -27,6 +28,8 @@ signals:
 
 private slots:
     void on_contributor_pushButton_clicked();
+
+    void on_remove_pushButton_clicked();
 
 private:
     Ui::contributorItem *ui;

@@ -7,6 +7,7 @@
 #include <QRandomGenerator>
 #include <algorithm> // for std::shuffle
 #include <QStringList>
+#include <QFile>
 
 #include "addGroupItem.h"
 #include "groupItem.h"
